@@ -4,9 +4,9 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 fn main() {
 
-    let difficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"; // Задаём сложность майнинга.
-    let mut nonce: u64 = 0; // nonce — число, которое изменяется для поиска подходящего хеша.
-    let mut index: u64 = 0; // индекс блока, который мы майним.
+    let difficulty = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+    let mut nonce: u64 = 0;
+    let mut index: u64 = 0;
     let mut previous_hash = [1u8; 32];
     
     let mut balance: f64= 0.0;
@@ -29,10 +29,10 @@ fn main() {
         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
         let mut hasher = Sha256::new();
 
-        hasher.update(timestamp.to_le_bytes()); // Добавляем в хешер текущее время.
-        hasher.update(nonce.to_le_bytes()); // Добавляем в хешер nonce.
-        hasher.update(index.to_le_bytes()); // Добавляем в хешер индекс блока.
-        hasher.update(previous_hash); // Добавляем в хешер предыдущий хеш.
+        hasher.update(timestamp.to_le_bytes());
+        hasher.update(nonce.to_le_bytes());
+        hasher.update(index.to_le_bytes());
+        hasher.update(previous_hash);
 
         let hash = hasher.finalize();
         let double_hash = Sha256::digest(&hash);
@@ -40,13 +40,13 @@ fn main() {
         let previous_hash_hex: String = previous_hash.iter().map(|byte| format!("{:02x}", byte)).collect();
 
         if hash_hex.as_str() <= difficulty {
-            // println!("\n**********************");
-            // println!("*****BLOCK {} MINED!*****", index);
-            // println!("**********************");
-            // println!("Timestamp: {}", timestamp);
-            // println!("previous_hash: {}", previous_hash_hex);
-            // println!("Nonce: {}", nonce);
-            // println!("Hash: {}", hash_hex);
+            println!("\n**********************");
+            println!("*****BLOCK {} MINED!*****", index);
+            println!("**********************");
+            println!("Timestamp: {}", timestamp);
+            println!("previous_hash: {}", previous_hash_hex);
+            println!("Nonce: {}", nonce);
+            println!("Hash: {}", hash_hex);
             balance += reward;
             println!("Balance: {} BTC", balance);
             
@@ -68,9 +68,9 @@ fn main() {
                 let previous = &blockchain[blockchain.len() - 2];
 
                 if current.previous_hash == previous.hash {
-                    //println!("Block VALID!");
+                    println!("Block VALID!");
                 } else {
-                    //println!("Block INVALID!");
+                    println!("Block INVALID!");
                 }
             }
             
